@@ -1,0 +1,19 @@
+header {
+	margin: 2rem;
+	text-align: center;
+}
+
+body {
+	background: linear-gradient(116deg, #542d7a -0.26%, #140052 100%);
+	min-height: 100vh;
+}
+
+@media only screen and (max-width: 430px) {
+	body {
+		background: linear-gradient(116deg, #542d7a -0.26%, #140052 100%);
+		min-height: 100vh;
+	}
+	header {
+		text-align: center;
+	}
+}
