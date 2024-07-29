@@ -3,12 +3,12 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
-	"homepage": "https://ShrinivasV73.github.io/ReactJS-Assignment-Project",
+	"homepage": "https://ShrinivasV73.github.io/Assignment-ReactJS",
 	"scripts": {
 		"dev": "vite",
-		"predeploy": "npm run build",
-		"deploy": "gh-pages -d build",
 		"build": "vite build",
+		"predeploy": "npm run build",
+		"deploy": "gh-pages -d dist",
 		"lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
 		"preview": "vite preview"
 	},
