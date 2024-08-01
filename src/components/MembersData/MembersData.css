@@ -66,6 +66,12 @@ input[type='radio'] {
 	transform: scale(1.25);
 }
 
+.error-message {
+	color: red;
+	font-size: 0.75rem;
+	margin-top: 0.25rem;
+}
+
 @media only screen and (max-width: 430px) {
 	.information-container {
 		width: 100%;
