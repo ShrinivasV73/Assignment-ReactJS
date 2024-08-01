@@ -16,10 +16,14 @@ const MembersData = () => {
 	const [isAdding, setIsAdding] = useState(false);
 
 	// State Variable:
-	// Manaing user inputs
+	// Managing user inputs
 	const [memberData, setMemberData] = useState(defaultMemberData);
 
 	const [membersArray, setMembersArray] = useState([]);
+
+	// State Variable:
+	// Managing the error message for each input field validation
+	const [errors, setErrors] = useState({});
 
 	// Handler Function:
 	// Updating state of addition of new members based on previous state
@@ -36,17 +40,52 @@ const MembersData = () => {
 		});
 	};
 
-	const addNewMemberToArray = (memberData) => {
-		/**
-		 * Adding Basic Validation to ensure
-		 * All fields are filled to succesfully add the record
-		 */
-		if (
-			memberData.fullName !== '' &&
-			memberData.email !== '' &&
-			memberData.age !== '' &&
-			memberData.gender !== ''
+	const validateInputs = () => {
+		let errors = {};
+
+		// Validating fullName
+		if (!memberData.fullName) {
+			errors.fullName = 'Full Name is required.';
+		} else if (memberData.fullName.length < 3) {
+			errors.fullName = 'Full Name should be at least 3 characters long.';
+		} else if (/\d/.test(memberData.fullName)) {
+			errors.fullName = 'Full Name should not contain number(s).';
+		}
+
+		// Validating email
+		if (!memberData.email) {
+			errors.email = 'Email is required.';
+		} else if (
+			!/@/.test(memberData.email) ||
+			!/(.co.in|.com)$/.test(memberData.email)
 		) {
+			errors.email =
+				'Email should contain @ symbol and end with .co.in or .com.';
+		}
+
+		// Validating age
+		if (!memberData.age) {
+			errors.age = 'Age is required.';
+		} else if (isNaN(memberData.age) || memberData.age <= 0) {
+			errors.age = 'Age should be greater than 0.';
+		}
+
+		// Validating gender
+		if (!memberData.gender) {
+			errors.gender = 'Gender is required.';
+		}
+
+		setErrors(errors);
+
+		/**
+		 * If there are no 0 no.of keys in errors object,
+		 * it means all the constraints for each input field have been met
+		 */
+		return Object.keys(errors).length === 0;
+	};
+
+	const addNewMemberToArray = (memberData) => {
+		if (validateInputs()) {
 			const updatedMembersList = [...membersArray, memberData];
 			setMembersArray(updatedMembersList);
 			setMemberData(defaultMemberData);
@@ -77,6 +116,9 @@ const MembersData = () => {
 					value={memberData.fullName}
 					required
 				/>
+				{errors.fullName && (
+					<p className='error-message'>{errors.fullName}</p>
+				)}
 			</div>
 			<div className='input-field-container'>
 				<label
@@ -92,6 +134,9 @@ const MembersData = () => {
 					onChange={handleInputChange}
 					required
 				/>
+				{errors.email && (
+					<p className='error-message'>{errors.email}</p>
+				)}
 			</div>
 			<div className='input-field-container'>
 				<label
@@ -107,6 +152,7 @@ const MembersData = () => {
 					onChange={handleInputChange}
 					required
 				/>
+				{errors.age && <p className='error-message'>{errors.age}</p>}
 			</div>
 			<div className='input-field-container'>
 				<label className='input-label'>Gender</label>
@@ -143,6 +189,9 @@ const MembersData = () => {
 					/>
 					<label htmlFor='genderOther'>Other</label>
 				</div>
+				{errors.gender && (
+					<p className='error-message'>{errors.gender}</p>
+				)}
 			</div>
 			<div className='input-field-container'>
 				<button
